@@ -351,6 +351,8 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\BasketAdd.cshtml" />
     <Content Include="Views\Product\Basket.cshtml" />
+    <Content Include="Views\Product\OrderList.cshtml" />
+    <Content Include="Views\Product\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

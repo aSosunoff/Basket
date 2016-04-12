@@ -21,5 +21,10 @@ namespace Model.Engine.Service.Logic
         {
             _orderRepository.Create(item);
         }
+
+        public IEnumerable<AGRO_ORDER> GetOrdersByIdContract(decimal id)
+        {
+            return _orderRepository.GetList().Where(e => e.ID_CONTRACT == id);
+        }
     }
 }

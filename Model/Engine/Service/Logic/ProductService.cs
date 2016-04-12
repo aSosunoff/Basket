@@ -34,11 +34,6 @@ namespace Model.Engine.Service.Logic
             return _productRepository.GetItem(e => e.ID == id);
         }
 
-        public void Create(AGRO_PRODUCT item)
-        {
-            //todo: подумать как можно не печатая вынести медод из UnitOfWork
-            _productRepository.Update(item);
-        }
 
         public void Update(AGRO_PRODUCT item)
         {

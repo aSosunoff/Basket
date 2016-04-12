@@ -64,10 +64,20 @@ namespace AGRO.Controllers
             return View(_serviceLayer.Get<IBasketService>().GetBasketModels());
         }
 
-        public ActionResult Order()
+        public ActionResult BasketToOrder()
         {
             _serviceLayer.Get<IBasketService>().Order();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult OrderList()
+        {
+            return View(_serviceLayer.Get<IContractService>().GetList());
+        }
+
+        public ActionResult Order(decimal id)
+        {
+            return View("OrderDetails", _serviceLayer.Get<IOrderService>().GetOrdersByIdContract(id));
         }
 
     }

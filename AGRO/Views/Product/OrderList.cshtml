@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Model.AGRO_CONTRACT>
+
+@{
+    ViewBag.Title = "Order";
+}
+
+<h2>Заказы</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            Наименование
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DATE_START)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+@{ int i = 0; }
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Заказ №", "Order", new{ id = item.ID})  @(i++)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DATE_START)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>*@
+    </tr>
+}
+
+</table>

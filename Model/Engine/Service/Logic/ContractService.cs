@@ -8,7 +8,7 @@ using Model.Engine.Service.Interface;
 
 namespace Model.Engine.Service.Logic
 {
-    class ContractService : BaseService, IContractService
+    public class ContractService : BaseService, IContractService
     {
         //todo: приходиться всё время копировать. Придумать автоматическую генерацию
         private IContractRepository _contractRepository;
@@ -26,6 +26,16 @@ namespace Model.Engine.Service.Logic
         public int Count()
         {
             return _contractRepository.GetList().Count();
+        }
+
+        public IEnumerable<AGRO_CONTRACT> GetList()
+        {
+            return _contractRepository.GetList();
+        }
+
+        public AGRO_CONTRACT GetItemToId(decimal id)
+        {
+            return _contractRepository.GetItem(e => e.ID == id);
         }
     }
 }
