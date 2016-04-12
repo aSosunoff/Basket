@@ -1,0 +1,69 @@
+﻿@using Model
+@model Model.Infrastructure.BasketModels
+    @*IEnumerable<Model.AGRO_BASKET>*@
+
+@{
+    ViewBag.Title = "Basket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Basket</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+    <table class="table">
+        <tr>
+            <th>
+                Наименование
+            </th>
+            <th>
+                Колличество
+            </th>
+            <th>
+                Стоимость
+            </th>
+            <th>
+                Дата добавления
+            </th>
+            @*<th></th>*@
+        </tr>
+
+        @foreach (var item in Model.ProductsToBascet)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AGRO_PRODUCT.NAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QANTITY)
+                    @Html.HiddenFor(modelItem => item.QANTITY)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SUM_QANTITY)
+                    @Html.HiddenFor(modelItem => item.SUM_QANTITY)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DATA_START)
+                    @Html.HiddenFor(modelItem => item.DATA_START)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                    </td>*@
+            </tr>
+        }
+        <tr>
+            <td>Итого:</td>
+            <td></td>
+            <td>@Html.DisplayFor(model => model.ResultAllSum)</td>
+            <td></td>
+        </tr>
+    </table>
+    
+    
+    @Html.ActionLink("Оформить заказ", "Order", null, new { @class = "btn btn-primary" })
+    
+

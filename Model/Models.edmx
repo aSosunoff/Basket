@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AGRO_BASKET">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="QANTITY" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="DATA_START" Type="date" Nullable="false" />
+          <Property Name="ID_PRODUCT" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AGRO_CONTRACT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DATE_START" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AGRO_ORDER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="QANTITY" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="PRICE_ONE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_CONTRACT" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AGRO_PRODUCT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="QUNTITY" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="PRICE_ONE" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <Association Name="AGRO_BASKET_FK1">
+          <End Role="AGRO_PRODUCT" Type="Self.AGRO_PRODUCT" Multiplicity="1" />
+          <End Role="AGRO_BASKET" Type="Self.AGRO_BASKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AGRO_PRODUCT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGRO_BASKET">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AGRO_ORDER_FK1">
+          <End Role="AGRO_CONTRACT" Type="Self.AGRO_CONTRACT" Multiplicity="1" />
+          <End Role="AGRO_ORDER" Type="Self.AGRO_ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AGRO_CONTRACT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGRO_ORDER">
+              <PropertyRef Name="ID_CONTRACT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AGRO_BASKET" EntityType="Self.AGRO_BASKET" Schema="TEST" store:Type="Tables" />
+          <EntitySet Name="AGRO_CONTRACT" EntityType="Self.AGRO_CONTRACT" Schema="TEST" store:Type="Tables" />
+          <EntitySet Name="AGRO_ORDER" EntityType="Self.AGRO_ORDER" Schema="TEST" store:Type="Tables" />
+          <EntitySet Name="AGRO_PRODUCT" EntityType="Self.AGRO_PRODUCT" Schema="TEST" store:Type="Tables" />
+          <AssociationSet Name="AGRO_BASKET_FK1" Association="Self.AGRO_BASKET_FK1">
+            <End Role="AGRO_PRODUCT" EntitySet="AGRO_PRODUCT" />
+            <End Role="AGRO_BASKET" EntitySet="AGRO_BASKET" />
+          </AssociationSet>
+          <AssociationSet Name="AGRO_ORDER_FK1" Association="Self.AGRO_ORDER_FK1">
+            <End Role="AGRO_CONTRACT" EntitySet="AGRO_CONTRACT" />
+            <End Role="AGRO_ORDER" EntitySet="AGRO_ORDER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AGRO_BASKET" EntityType="Model.AGRO_BASKET" />
+          <EntitySet Name="AGRO_CONTRACT" EntityType="Model.AGRO_CONTRACT" />
+          <EntitySet Name="AGRO_ORDER" EntityType="Model.AGRO_ORDER" />
+          <EntitySet Name="AGRO_PRODUCT" EntityType="Model.AGRO_PRODUCT" />
+          <AssociationSet Name="AGRO_BASKET_FK1" Association="Model.AGRO_BASKET_FK1">
+            <End Role="AGRO_PRODUCT" EntitySet="AGRO_PRODUCT" />
+            <End Role="AGRO_BASKET" EntitySet="AGRO_BASKET" />
+          </AssociationSet>
+          <AssociationSet Name="AGRO_ORDER_FK1" Association="Model.AGRO_ORDER_FK1">
+            <End Role="AGRO_CONTRACT" EntitySet="AGRO_CONTRACT" />
+            <End Role="AGRO_ORDER" EntitySet="AGRO_ORDER" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AGRO_BASKET">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QANTITY" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="DATA_START" Type="DateTime" Nullable="false" />
+          <Property Name="ID_PRODUCT" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <NavigationProperty Name="AGRO_PRODUCT" Relationship="Model.AGRO_BASKET_FK1" FromRole="AGRO_BASKET" ToRole="AGRO_PRODUCT" />
+        </EntityType>
+        <EntityType Name="AGRO_CONTRACT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATE_START" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="AGRO_ORDER" Relationship="Model.AGRO_ORDER_FK1" FromRole="AGRO_CONTRACT" ToRole="AGRO_ORDER" />
+        </EntityType>
+        <EntityType Name="AGRO_ORDER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="QANTITY" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="PRICE_ONE" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_CONTRACT" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <NavigationProperty Name="AGRO_CONTRACT" Relationship="Model.AGRO_ORDER_FK1" FromRole="AGRO_ORDER" ToRole="AGRO_CONTRACT" />
+        </EntityType>
+        <EntityType Name="AGRO_PRODUCT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QUNTITY" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="PRICE_ONE" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <NavigationProperty Name="AGRO_BASKET" Relationship="Model.AGRO_BASKET_FK1" FromRole="AGRO_PRODUCT" ToRole="AGRO_BASKET" />
+        </EntityType>
+        <Association Name="AGRO_BASKET_FK1">
+          <End Type="Model.AGRO_PRODUCT" Role="AGRO_PRODUCT" Multiplicity="1" />
+          <End Type="Model.AGRO_BASKET" Role="AGRO_BASKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AGRO_PRODUCT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGRO_BASKET">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AGRO_ORDER_FK1">
+          <End Type="Model.AGRO_CONTRACT" Role="AGRO_CONTRACT" Multiplicity="1" />
+          <End Type="Model.AGRO_ORDER" Role="AGRO_ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AGRO_CONTRACT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGRO_ORDER">
+              <PropertyRef Name="ID_CONTRACT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AGRO_BASKET">
+            <EntityTypeMapping TypeName="Model.AGRO_BASKET">
+              <MappingFragment StoreEntitySet="AGRO_BASKET">
+                <ScalarProperty Name="ID_PRODUCT" ColumnName="ID_PRODUCT" />
+                <ScalarProperty Name="DATA_START" ColumnName="DATA_START" />
+                <ScalarProperty Name="QANTITY" ColumnName="QANTITY" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGRO_CONTRACT">
+            <EntityTypeMapping TypeName="Model.AGRO_CONTRACT">
+              <MappingFragment StoreEntitySet="AGRO_CONTRACT">
+                <ScalarProperty Name="DATE_START" ColumnName="DATE_START" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGRO_ORDER">
+            <EntityTypeMapping TypeName="Model.AGRO_ORDER">
+              <MappingFragment StoreEntitySet="AGRO_ORDER">
+                <ScalarProperty Name="ID_CONTRACT" ColumnName="ID_CONTRACT" />
+                <ScalarProperty Name="PRICE_ONE" ColumnName="PRICE_ONE" />
+                <ScalarProperty Name="QANTITY" ColumnName="QANTITY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGRO_PRODUCT">
+            <EntityTypeMapping TypeName="Model.AGRO_PRODUCT">
+              <MappingFragment StoreEntitySet="AGRO_PRODUCT">
+                <ScalarProperty Name="PRICE_ONE" ColumnName="PRICE_ONE" />
+                <ScalarProperty Name="QUNTITY" ColumnName="QUNTITY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

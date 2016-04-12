@@ -1,0 +1,58 @@
+﻿@model Model.Infrastructure.BasketModels 
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Продукты</h2>
+    
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-lg-3">
+            @Html.ActionLink("В корзине", "Basket", null, new { @class = "btn btn-primary" })
+            <span class="badge">@Model.CountElementToBasket</span>
+        </div>
+        <div class="col-lg-offset-6 col-lg-3">
+            @Html.ActionLink("Заказы", "Basket", null, new { @class = "btn btn-primary" })
+            <span class="badge">@Model.CountElementToContract</span>
+        </div>
+    </div>
+</div>
+
+
+@foreach (var element in Model.Products)
+{
+    <div class="col-lg-4">
+        <div class="row">
+            <div class="col-lg-12">
+                @Html.ActionLink(element.NAME, "Details", new { id = element.ID })
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-5">
+                    @Html.DisplayNameFor(modeItem => element.QUNTITY)
+                </div>
+                <div class="col-lg-7">
+                    @Html.DisplayFor(modeItem => element.QUNTITY)
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-5">
+                    @Html.DisplayNameFor(modeItem => element.PRICE_ONE)
+                </div>
+                <div class="col-lg-7">
+                    @Html.DisplayFor(modeItem => element.PRICE_ONE)
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @Html.ActionLink("В корзину", "AddedToBasket", new { id = element.ID }, new { @class = "btn btn-primary btn-xs" })
+            </div>
+        </div>
+
+
+    </div>
+}
+
+
+
+

@@ -1,0 +1,39 @@
+﻿@model Model.AGRO_PRODUCT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Html.DisplayFor(model => model.NAME)</h2>
+
+<fieldset>
+    @*<legend>AGRO_PRODUCT</legend>*@
+
+    @*<div class="display-label">
+        @Html.DisplayNameFor(model => model.NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NAME)
+    </div>*@
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.QUNTITY)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QUNTITY)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.PRICE_ONE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PRICE_ONE)
+    </div>
+</fieldset>
+
+
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@

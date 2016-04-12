@@ -1,0 +1,62 @@
+﻿@model Model.AGRO_BASKET
+
+@{
+    ViewBag.Title = "Basket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Basket</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @*<fieldset>
+        <legend>AGRO_PRODUCT</legend>*@
+
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.ID_PRODUCT)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.QANTITY, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.QANTITY, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите колличество" } })
+        @Html.ValidationMessageFor(model => model.QANTITY)
+    </div>
+
+        @*<div class="editor-label">
+            
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NAME)
+            @Html.ValidationMessageFor(model => model.NAME)
+        </div>*@
+
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.QUNTITY)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QUNTITY)
+            @Html.ValidationMessageFor(model => model.QUNTITY)
+        </div>*@
+
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.PRICE_ONE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PRICE_ONE)
+            @Html.ValidationMessageFor(model => model.PRICE_ONE)
+        </div>*@
+
+        <p>
+            <input type="submit" value="Купить" class="btn btn-primary" />
+        </p>
+        @*</fieldset>*@
+        }
+
+        @*<div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }*@
