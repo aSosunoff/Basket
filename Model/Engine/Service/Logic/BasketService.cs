@@ -49,14 +49,42 @@ namespace Model.Engine.Service.Logic
 
         public BasketModels GetBasketModels()
         {
+            //проверяем есть ли добавленый ранее товар в корзине на складе
+            //если нет то выводим предупреждающее сообщение
+            string errorMessage;
+            if (IsNullQantityProduct(out errorMessage))
+                throw new Exception(errorMessage);
+
             return new BasketModels()
             {
                 ProductsToBascet = BasketRepository.GetList()
             };
         }
 
+        private bool IsNullQantityProduct(out string errorMessage)
+        {
+            bool errorFlag = false;
+            errorMessage = String.Empty;
+
+            foreach (var element in BasketRepository.GetList())
+            {
+                if (RootServiceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT).QUNTITY < element.QANTITY)
+                {
+                    errorFlag = true;
+                    errorMessage += String.Format("Продукта \"{0}\" нет на складе\n", element.AGRO_PRODUCT.NAME);
+                }
+                    
+            }
+            return errorFlag;
+        }
+
         public void Order()
         {
+            //проверяем есть ли добавленый ранее товар в корзине на складе
+            //если нет то выводим предупреждающее сообщение
+            string errorMessage;
+            if(IsNullQantityProduct(out errorMessage))
+                throw new Exception(errorMessage);
             //создаём контракт который прикрепим к заказу
             //добавляем информацию о клиенте и о поставщике
             //продумать индификатор поставщика
@@ -67,6 +95,7 @@ namespace Model.Engine.Service.Logic
             //создаём заказ. и перемещаем товары из корзины в заказ
             foreach (var element in BasketRepository.GetList())
             {
+                
                 AGRO_ORDER order = new AGRO_ORDER()
                 {
                     ID_CONTRACT = contract.ID,

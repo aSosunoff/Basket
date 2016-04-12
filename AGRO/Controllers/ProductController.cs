@@ -9,7 +9,7 @@ using AGRO.Models;
 using Model;
 using Model.Engine.Service;
 using Model.Engine.Service.Interface;
-using AGRO_BASKET = Model.AGRO_BASKET;
+using Model.Infrastructure;
 
 namespace AGRO.Controllers
 {
@@ -61,13 +61,33 @@ namespace AGRO.Controllers
 
         public ActionResult Basket()
         {
-            return View(_serviceLayer.Get<IBasketService>().GetBasketModels());
+            try
+            {
+                return View(_serviceLayer.Get<IBasketService>().GetBasketModels());
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+            }
+            return View(new BasketModels
+            {
+                ProductsToBascet = _serviceLayer.Get<IBasketService>().BasketRepository.GetList()
+            });
         }
 
         public ActionResult BasketToOrder()
         {
-            _serviceLayer.Get<IBasketService>().Order();
-            return RedirectToAction("Index");
+            try
+            {
+                _serviceLayer.Get<IBasketService>().Order();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+            }
+            return View("Basket", _serviceLayer.Get<IBasketService>().GetBasketModels());
+            
         }
 
         public ActionResult OrderList()
