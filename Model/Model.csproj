@@ -62,6 +62,9 @@
     <Compile Include="AGRO_BASKET.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="AGRO_CATEGORY.cs">
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="AGRO_CONTRACT.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>

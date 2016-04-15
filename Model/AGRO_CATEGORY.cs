@@ -12,22 +12,18 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
-    public partial class AGRO_PRODUCT
+    public partial class AGRO_CATEGORY
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AGRO_PRODUCT()
+        public AGRO_CATEGORY()
         {
-            this.AGRO_BASKET = new HashSet<AGRO_BASKET>();
+            this.AGRO_PRODUCT = new HashSet<AGRO_PRODUCT>();
         }
     
         public decimal ID { get; set; }
         public string NAME { get; set; }
-        public decimal QUNTITY { get; set; }
-        public decimal PRICE_ONE { get; set; }
-        public decimal ID_CATEGORY { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AGRO_BASKET> AGRO_BASKET { get; set; }
-        public virtual AGRO_CATEGORY AGRO_CATEGORY { get; set; }
+        public virtual ICollection<AGRO_PRODUCT> AGRO_PRODUCT { get; set; }
     }
 }

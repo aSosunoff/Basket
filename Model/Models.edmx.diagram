@@ -5,12 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9a58ab2dc76646aabbf699c2237a2841" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.AGRO_BASKET" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="Model.AGRO_BASKET" Width="1.5" PointX="5.5" PointY="0.75" />
         <EntityTypeShape EntityType="Model.AGRO_CONTRACT" Width="1.5" PointX="0.75" PointY="4.25" />
         <EntityTypeShape EntityType="Model.AGRO_ORDER" Width="1.5" PointX="3" PointY="3.875" />
-        <EntityTypeShape EntityType="Model.AGRO_PRODUCT" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="Model.AGRO_PRODUCT" Width="1.5" PointX="3.5" PointY="0.625" />
         <AssociationConnector Association="Model.AGRO_BASKET_FK1" />
         <AssociationConnector Association="Model.AGRO_ORDER_FK1" />
+        <EntityTypeShape EntityType="Model.AGRO_CATEGORY" Width="1.5" PointX="1.125" PointY="0.625" />
+        <AssociationConnector Association="Model.AGRO_PRODUCT_FK1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

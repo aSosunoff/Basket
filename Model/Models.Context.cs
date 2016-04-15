@@ -29,5 +29,6 @@ namespace Model
         public virtual DbSet<AGRO_CONTRACT> AGRO_CONTRACT { get; set; }
         public virtual DbSet<AGRO_ORDER> AGRO_ORDER { get; set; }
         public virtual DbSet<AGRO_PRODUCT> AGRO_PRODUCT { get; set; }
+        public virtual DbSet<AGRO_CATEGORY> AGRO_CATEGORY { get; set; }
     }
 }

@@ -14,6 +14,13 @@
           <Property Name="DATA_START" Type="date" Nullable="false" />
           <Property Name="ID_PRODUCT" Type="number" Precision="38" Scale="0" Nullable="false" />
         </EntityType>
+        <EntityType Name="AGRO_CATEGORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="AGRO_CONTRACT">
           <Key>
             <PropertyRef Name="ID" />
@@ -39,6 +46,7 @@
           <Property Name="NAME" Type="varchar2" MaxLength="100" Nullable="false" />
           <Property Name="QUNTITY" Type="number" Precision="38" Scale="0" Nullable="false" />
           <Property Name="PRICE_ONE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_CATEGORY" Type="number" Precision="38" Scale="0" Nullable="false" />
         </EntityType>
         <Association Name="AGRO_BASKET_FK1">
           <End Role="AGRO_PRODUCT" Type="Self.AGRO_PRODUCT" Multiplicity="1" />
@@ -64,8 +72,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AGRO_PRODUCT_FK1">
+          <End Role="AGRO_CATEGORY" Type="Self.AGRO_CATEGORY" Multiplicity="1" />
+          <End Role="AGRO_PRODUCT" Type="Self.AGRO_PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AGRO_CATEGORY">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGRO_PRODUCT">
+              <PropertyRef Name="ID_CATEGORY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AGRO_BASKET" EntityType="Self.AGRO_BASKET" Schema="TEST" store:Type="Tables" />
+          <EntitySet Name="AGRO_CATEGORY" EntityType="Self.AGRO_CATEGORY" Schema="TEST" store:Type="Tables" />
           <EntitySet Name="AGRO_CONTRACT" EntityType="Self.AGRO_CONTRACT" Schema="TEST" store:Type="Tables" />
           <EntitySet Name="AGRO_ORDER" EntityType="Self.AGRO_ORDER" Schema="TEST" store:Type="Tables" />
           <EntitySet Name="AGRO_PRODUCT" EntityType="Self.AGRO_PRODUCT" Schema="TEST" store:Type="Tables" />
@@ -76,6 +97,10 @@
           <AssociationSet Name="AGRO_ORDER_FK1" Association="Self.AGRO_ORDER_FK1">
             <End Role="AGRO_CONTRACT" EntitySet="AGRO_CONTRACT" />
             <End Role="AGRO_ORDER" EntitySet="AGRO_ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="AGRO_PRODUCT_FK1" Association="Self.AGRO_PRODUCT_FK1">
+            <End Role="AGRO_CATEGORY" EntitySet="AGRO_CATEGORY" />
+            <End Role="AGRO_PRODUCT" EntitySet="AGRO_PRODUCT" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -94,6 +119,11 @@
           <AssociationSet Name="AGRO_ORDER_FK1" Association="Model.AGRO_ORDER_FK1">
             <End Role="AGRO_CONTRACT" EntitySet="AGRO_CONTRACT" />
             <End Role="AGRO_ORDER" EntitySet="AGRO_ORDER" />
+          </AssociationSet>
+          <EntitySet Name="AGRO_CATEGORY" EntityType="Model.AGRO_CATEGORY" />
+          <AssociationSet Name="AGRO_PRODUCT_FK1" Association="Model.AGRO_PRODUCT_FK1">
+            <End Role="AGRO_CATEGORY" EntitySet="AGRO_CATEGORY" />
+            <End Role="AGRO_PRODUCT" EntitySet="AGRO_PRODUCT" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AGRO_BASKET">
@@ -134,6 +164,8 @@
           <Property Name="QUNTITY" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
           <Property Name="PRICE_ONE" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
           <NavigationProperty Name="AGRO_BASKET" Relationship="Model.AGRO_BASKET_FK1" FromRole="AGRO_PRODUCT" ToRole="AGRO_BASKET" />
+          <Property Name="ID_CATEGORY" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <NavigationProperty Name="AGRO_CATEGORY" Relationship="Model.AGRO_PRODUCT_FK1" FromRole="AGRO_PRODUCT" ToRole="AGRO_CATEGORY" />
         </EntityType>
         <Association Name="AGRO_BASKET_FK1">
           <End Type="Model.AGRO_PRODUCT" Role="AGRO_PRODUCT" Multiplicity="1" />
@@ -156,6 +188,26 @@
             </Principal>
             <Dependent Role="AGRO_ORDER">
               <PropertyRef Name="ID_CONTRACT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AGRO_CATEGORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AGRO_PRODUCT" Relationship="Model.AGRO_PRODUCT_FK1" FromRole="AGRO_CATEGORY" ToRole="AGRO_PRODUCT" />
+        </EntityType>
+        <Association Name="AGRO_PRODUCT_FK1">
+          <End Type="Model.AGRO_CATEGORY" Role="AGRO_CATEGORY" Multiplicity="1" />
+          <End Type="Model.AGRO_PRODUCT" Role="AGRO_PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AGRO_CATEGORY">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGRO_PRODUCT">
+              <PropertyRef Name="ID_CATEGORY" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -197,8 +249,17 @@
           <EntitySetMapping Name="AGRO_PRODUCT">
             <EntityTypeMapping TypeName="Model.AGRO_PRODUCT">
               <MappingFragment StoreEntitySet="AGRO_PRODUCT">
+                <ScalarProperty Name="ID_CATEGORY" ColumnName="ID_CATEGORY" />
                 <ScalarProperty Name="PRICE_ONE" ColumnName="PRICE_ONE" />
                 <ScalarProperty Name="QUNTITY" ColumnName="QUNTITY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGRO_CATEGORY">
+            <EntityTypeMapping TypeName="Model.AGRO_CATEGORY">
+              <MappingFragment StoreEntitySet="AGRO_CATEGORY">
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
