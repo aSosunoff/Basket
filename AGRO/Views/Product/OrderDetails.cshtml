@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Model.AGRO_ORDER>
+﻿@*@model IEnumerable<Model.AGRO_ORDER>*@
+
+@model Model.Infrastructure.PageModels
 
 @{
     ViewBag.Title = "OrderDetails";
@@ -9,20 +11,24 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(e => e.NAME)
+            Наименование
+            @*@Html.DisplayNameFor(e => e.Orders.NAME)*@
         </th>
         <th>
-            @Html.DisplayNameFor(e => e.QANTITY)
+            Количество
+            @*@Html.DisplayNameFor(e => e.QANTITY)*@
         </th>
         <th>
-            @Html.DisplayNameFor(e => e.PRICE_ONE)
+            Цена за единицу
+            @*@Html.DisplayNameFor(e => e.PRICE_ONE)*@
         </th>
         <th>
-            @Html.DisplayNameFor(e => e.AGRO_CONTRACT.DATE_START)
+            Дата составления
+            @*@Html.DisplayNameFor(e => e.AGRO_CONTRACT.DATE_START)*@
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Orders)
     {
         <tr>
             <td>
@@ -39,12 +45,12 @@
             </td>
         </tr>
     }
-    @*<tr>
+    <tr>
         <td>Итого:</td>
         <td></td>
-        <td>@Html.DisplayFor(model => model.ResultAllSum)</td>
+        <td>@Html.DisplayFor(model => model.ResultAllSumToOrder)</td>
         <td></td>
-    </tr>*@
+    </tr>
 </table>
 
 

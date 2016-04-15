@@ -12,11 +12,11 @@ namespace Model.Engine.Service.Logic
 {
     public class ProductService : BaseService, IProductService
     {
-        private IProductRepository _productRepository;
+        public IProductRepository ProductRepositoryService { get; set; }
 
         public ProductService(IUnitOfWork unitOfWork)
         {
-            _productRepository = unitOfWork.Get<IProductRepository>();
+            ProductRepositoryService = unitOfWork.Get<IProductRepository>();
         }
 
         public BasketModels GetBasketModels()
@@ -24,20 +24,20 @@ namespace Model.Engine.Service.Logic
             return new BasketModels()
             {
                 CountElementToBasket = RootServiceLayer.Get<IBasketService>().Count(),
-                Products = _productRepository.GetList(),
+                Products = ProductRepositoryService.GetList(),
                 CountElementToContract = RootServiceLayer.Get<IContractService>().Count()
             };
         }
 
         public AGRO_PRODUCT GetItemToId(decimal id)
         {
-            return _productRepository.GetItem(e => e.ID == id);
+            return ProductRepositoryService.GetItem(e => e.ID == id);
         }
 
 
         public void Update(AGRO_PRODUCT item)
         {
-            _productRepository.Update(item);
+            ProductRepositoryService.Update(item);
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿@model IEnumerable<Model.AGRO_CONTRACT>
+﻿@*@model IEnumerable<Model.AGRO_CONTRACT>*@
 
+@model Model.Infrastructure.PageModels
 @{
     ViewBag.Title = "Order";
 }
@@ -15,13 +16,15 @@
             Наименование
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DATE_START)
+            Дата
+            @*@Html.DisplayNameFor(Model.Contracts => Model.Contracts.DATE_START)*@
         </th>
         @*<th></th>*@
     </tr>
 
 @{ int i = 1; }
-@foreach (var item in Model) {
+@foreach (var item in Model.Contracts)
+{
     <tr>
         <td>
             @Html.ActionLink("Заказ №", "Order", new{ id = item.ID})  @(i++)

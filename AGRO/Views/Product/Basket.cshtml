@@ -1,6 +1,5 @@
-﻿@using Model
-@model Model.Infrastructure.BasketModels
-    @*IEnumerable<Model.AGRO_BASKET>*@
+﻿@model Model.Infrastructure.PageModels
+
 
 @{
     ViewBag.Title = "Basket";
@@ -58,7 +57,7 @@
         <tr>
             <td>Итого:</td>
             <td></td>
-            <td>@Html.DisplayFor(model => model.ResultAllSum)</td>
+            <td>@Html.DisplayFor(model => model.ResultAllSumToBasket)</td>
             <td></td>
         </tr>
     </table>

@@ -100,7 +100,9 @@
     <Compile Include="Engine\Service\Logic\OrderService.cs" />
     <Compile Include="Engine\Service\Logic\ProductService.cs" />
     <Compile Include="Engine\Service\ServiceLayer.cs" />
+    <Compile Include="AGRO_ORDER_Partial.cs" />
     <Compile Include="Infrastructure\BasketModels.cs" />
+    <Compile Include="Infrastructure\PageModels.cs" />
     <Compile Include="Models.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -16,18 +16,23 @@ namespace AGRO.Controllers
     public class ProductController : Controller
     {
         private IServiceLayer _serviceLayer { get; set; }
+        private PageModels PageModels { get; set; }
         public ProductController(IServiceLayer serviceLayer)
         {
             _serviceLayer = ServiceLayer.Instance(serviceLayer);
+
+            PageModels = new PageModels(_serviceLayer);
         }
         public ActionResult Index()
         {
-            return View(_serviceLayer.Get<IProductService>().GetBasketModels());
+            return View(PageModels);
         }
 
         public ActionResult Details(int id)
         {
-            return View(_serviceLayer.Get<IProductService>().GetItemToId(id));
+            PageModels.Product = _serviceLayer.Get<IProductService>().GetItemToId(id);
+
+            return View(PageModels);
         }
 
         public ActionResult AddedToBasket(int id)
@@ -36,46 +41,52 @@ namespace AGRO.Controllers
             {
                 ID_PRODUCT = id
             };
+            PageModels.Basket = basket;
 
-            return View("BasketAdd", basket);
+            return View("BasketAdd", PageModels);
         }
 
         [HttpPost]
-        public ActionResult AddedToBasket(AGRO_BASKET product)
+        public ActionResult AddedToBasket(AGRO_BASKET basket)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _serviceLayer.Get<IBasketService>().AddedProductToBasket(product);
+                    _serviceLayer.Get<IBasketService>().AddedProductToBasket(basket);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
-                    ModelState["QANTITY"].Errors.Add(ex.Message);
+                    ModelState["basket.QANTITY"].Errors.Add(ex.Message);
+                    PageModels.ErrorMessage = ex.Message;
                 }
             }
-
-            return View("BasketAdd", product);
+            PageModels.Basket = basket;
+            return View("BasketAdd", PageModels);
         }
 
         public ActionResult Basket()
         {
             try
             {
-                return View(_serviceLayer.Get<IBasketService>().GetBasketModels());
+                //Необходимо дклать проверку перед открытием корзины
+                //todo: Необходимо сделать всё автоматом. Проблемма в том что когда отдаётся модель во view начитает работать процедура ProductsToBascet, которая выкидывает ошибку. Но так как модель уже находиться во View она не может её вернуть в контроллер где эта ошибка возвращается
+                //
+                PageModels.IsProductsToBascet();
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
+                PageModels.ErrorMessage = ex.Message;
             }
-            return View(new BasketModels
-            {
-                ProductsToBascet = _serviceLayer.Get<IBasketService>().BasketRepositoryService.GetList()
-            });
-            //todo:обход exceptin что бы вернуться обратно в представление
+            return View(PageModels);
         }
 
+        public ActionResult OrderList()
+        {
+            return View(PageModels);
+        }
+        
         public ActionResult BasketToOrder()
         {
             try
@@ -85,23 +96,18 @@ namespace AGRO.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
+                PageModels.ErrorMessage = ex.Message;
             }
-            return View("Basket", new BasketModels
-            {
-                ProductsToBascet = _serviceLayer.Get<IBasketService>().BasketRepositoryService.GetList()
-            });
-            //todo:обход exceptin что бы вернуться обратно в представление
+            return View("Basket", PageModels);
+            //todo: Вывести детальное предупреждение. Предусмотреть удаление товара из корзины которого нет на складе. Так же итоговую сумму выводить без сложения с товаром которого нет на складе
         }
 
-        public ActionResult OrderList()
-        {
-            return View(_serviceLayer.Get<IContractService>().GetList());
-        }
+        
 
         public ActionResult Order(decimal id)
         {
-            return View("OrderDetails", _serviceLayer.Get<IOrderService>().GetOrdersByIdContract(id));
+            PageModels.Orders = _serviceLayer.Get<IOrderService>().GetOrdersByIdContract(id);
+            return View("OrderDetails", PageModels);
         }
 
     }

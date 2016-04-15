@@ -1,4 +1,4 @@
-﻿@model Model.Infrastructure.BasketModels 
+﻿@model Model.Infrastructure.PageModels 
 
 @{
     ViewBag.Title = "Главная страница";
@@ -6,20 +6,6 @@
 }
 
 <h2>Продукты</h2>
-    
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="col-lg-3">
-            @Html.ActionLink("В корзине", "Basket", null, new { @class = "btn btn-primary" })
-            <span class="badge">@Model.CountElementToBasket</span>
-        </div>
-        <div class="col-lg-offset-6 col-lg-3">
-            @Html.ActionLink("Заказы", "OrderList", null, new { @class = "btn btn-primary" })
-            <span class="badge">@Model.CountElementToContract</span>
-        </div>
-    </div>
-</div>
-
 
 @foreach (var element in Model.Products)
 {

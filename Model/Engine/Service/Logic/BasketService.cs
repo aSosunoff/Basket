@@ -23,9 +23,18 @@ namespace Model.Engine.Service.Logic
 
         public void AddedProductToBasket(AGRO_BASKET productToBasket)
         {
-            if (productToBasket.QANTITY > RootServiceLayer.Get<IProductService>().GetItemToId(productToBasket.ID_PRODUCT).QUNTITY)
+            //проверяем на ноль выбранных товаров
+            if (productToBasket.QANTITY == 0)
+                throw new Exception("Необходимо выбрать хотябы одну единицу товара");
+
+            AGRO_PRODUCT agroProduct = RootServiceLayer.Get<IProductService>().GetItemToId(productToBasket.ID_PRODUCT);
+
+            //проверяем какое колличество добавил пользователь в корзину. Если оно привышает колличество доступное на складе, то выводим сообщение
+            if (productToBasket.QANTITY > agroProduct.QUNTITY)
                 throw new Exception("Нельзя добавить такое колличество товара");
 
+            //проверяем есть ли такой товар в корзине
+            //для этого проверяем его по ID товара пришедшего в объекте корзина
             var prod = BasketRepositoryService.GetList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
             
             //проверяем есть ли такой товар в корзине
@@ -36,12 +45,27 @@ namespace Model.Engine.Service.Logic
             }
             else
             {
-                prod.QANTITY += productToBasket.QANTITY;
+                //сумма товаров которая должна оказаться в корзине
+                decimal sumQantity = prod.QANTITY + productToBasket.QANTITY;
 
-                if (prod.QANTITY > RootServiceLayer.Get<IProductService>().GetItemToId(productToBasket.ID_PRODUCT).QUNTITY)
-                    throw new Exception("Нельзя добавить такое колличество товара");
+                //товар который доступен на складе
+                
+
+                //проверяем колличество товара которое должно оказаться в корзине после суммирования 
+                //с доступным на складе
+                if (sumQantity > agroProduct.QUNTITY)
+                {
+                    throw new Exception(String.Format(@"Вы не можете добавить {0} единиц товара ""{1}"" в корзину.
+                                                        Так как после добавления колличество товара привысит допустимое, которое имеется на складе.
+                                                        Вы можете максимально ещё добавить {2} единиц этого товара",
+                                                                                                                    productToBasket.QANTITY, 
+                                                                                                                    prod.AGRO_PRODUCT.NAME,
+                                                                                                                    agroProduct.QUNTITY - prod.QANTITY));
+                }
+                    
 
                 prod.DATA_START = DateTime.Now;
+                prod.QANTITY = sumQantity;
 
                 BasketRepositoryService.Update(prod);
             }
