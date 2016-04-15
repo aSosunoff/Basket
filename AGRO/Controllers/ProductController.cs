@@ -71,8 +71,9 @@ namespace AGRO.Controllers
             }
             return View(new BasketModels
             {
-                ProductsToBascet = _serviceLayer.Get<IBasketService>().BasketRepository.GetList()
+                ProductsToBascet = _serviceLayer.Get<IBasketService>().BasketRepositoryService.GetList()
             });
+            //todo:обход exceptin что бы вернуться обратно в представление
         }
 
         public ActionResult BasketToOrder()
@@ -86,8 +87,11 @@ namespace AGRO.Controllers
             {
                 ViewBag.ErrorMessage = ex.Message;
             }
-            return View("Basket", _serviceLayer.Get<IBasketService>().GetBasketModels());
-            
+            return View("Basket", new BasketModels
+            {
+                ProductsToBascet = _serviceLayer.Get<IBasketService>().BasketRepositoryService.GetList()
+            });
+            //todo:обход exceptin что бы вернуться обратно в представление
         }
 
         public ActionResult OrderList()

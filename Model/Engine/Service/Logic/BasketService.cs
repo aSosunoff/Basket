@@ -9,16 +9,16 @@ namespace Model.Engine.Service.Logic
 {
     public class BasketService : BaseService, IBasketService
     {
-        public IBasketRepository BasketRepository { get; set; }
+        public IBasketRepository BasketRepositoryService { get; set; }
 
         public BasketService(IUnitOfWork unitOfWork)
         {
-            BasketRepository = unitOfWork.Get<IBasketRepository>();
+            BasketRepositoryService = unitOfWork.Get<IBasketRepository>();
         }
 
         public int Count()
         {
-            return BasketRepository.GetList().Count();
+            return BasketRepositoryService.GetList().Count();
         }
 
         public void AddedProductToBasket(AGRO_BASKET productToBasket)
@@ -26,13 +26,13 @@ namespace Model.Engine.Service.Logic
             if (productToBasket.QANTITY > RootServiceLayer.Get<IProductService>().GetItemToId(productToBasket.ID_PRODUCT).QUNTITY)
                 throw new Exception("Нельзя добавить такое колличество товара");
 
-            var prod = BasketRepository.GetList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
+            var prod = BasketRepositoryService.GetList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
             
             //проверяем есть ли такой товар в корзине
             if (prod == null)
             {
                 productToBasket.DATA_START = DateTime.Now;
-                BasketRepository.Create(productToBasket);
+                BasketRepositoryService.Create(productToBasket);
             }
             else
             {
@@ -43,7 +43,7 @@ namespace Model.Engine.Service.Logic
 
                 prod.DATA_START = DateTime.Now;
 
-                BasketRepository.Update(prod);
+                BasketRepositoryService.Update(prod);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Model.Engine.Service.Logic
 
             return new BasketModels()
             {
-                ProductsToBascet = BasketRepository.GetList()
+                ProductsToBascet = BasketRepositoryService.GetList()
             };
         }
 
@@ -66,7 +66,7 @@ namespace Model.Engine.Service.Logic
             bool errorFlag = false;
             errorMessage = String.Empty;
 
-            foreach (var element in BasketRepository.GetList())
+            foreach (var element in BasketRepositoryService.GetList())
             {
                 if (RootServiceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT).QUNTITY < element.QANTITY)
                 {
@@ -93,7 +93,7 @@ namespace Model.Engine.Service.Logic
             RootServiceLayer.Get<IContractService>().Create(contract);
 
             //создаём заказ. и перемещаем товары из корзины в заказ
-            foreach (var element in BasketRepository.GetList())
+            foreach (var element in BasketRepositoryService.GetList())
             {
                 
                 AGRO_ORDER order = new AGRO_ORDER()
@@ -113,7 +113,7 @@ namespace Model.Engine.Service.Logic
                 RootServiceLayer.Get<IProductService>().Update(RootServiceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT));
                 
                 //удаляем из корзины
-                BasketRepository.Delete(element);
+                BasketRepositoryService.Delete(element);
             }
         }
     }

@@ -10,6 +10,6 @@ namespace Model.Engine.Service.Interface
         void AddedProductToBasket(AGRO_BASKET productToBasket);
         BasketModels GetBasketModels();
         void Order();
-        IBasketRepository BasketRepository { get; set; }
+        IBasketRepository BasketRepositoryService { get; set; }
     }
 }
