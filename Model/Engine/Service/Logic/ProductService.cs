@@ -24,7 +24,7 @@ namespace Model.Engine.Service.Logic
             return new BasketModels()
             {
                 CountElementToBasket = RootServiceLayer.Get<IBasketService>().Count(),
-                Products = ProductRepositoryService.GetList(),
+                Products = ProductRepositoryService.GetAllList(),
                 CountElementToContract = RootServiceLayer.Get<IContractService>().Count()
             };
         }

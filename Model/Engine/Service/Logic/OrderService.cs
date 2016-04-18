@@ -24,7 +24,7 @@ namespace Model.Engine.Service.Logic
 
         public IEnumerable<AGRO_ORDER> GetOrdersByIdContract(decimal id)
         {
-            return _orderRepository.GetList().Where(e => e.ID_CONTRACT == id);
+            return _orderRepository.GetAllList().Where(e => e.ID_CONTRACT == id);
         }
     }
 }

@@ -13,6 +13,7 @@
         <AssociationConnector Association="Model.AGRO_ORDER_FK1" />
         <EntityTypeShape EntityType="Model.AGRO_CATEGORY" Width="1.5" PointX="1.125" PointY="0.625" />
         <AssociationConnector Association="Model.AGRO_PRODUCT_FK1" />
+        <EntityTypeShape EntityType="Model.AGRO_TEST" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

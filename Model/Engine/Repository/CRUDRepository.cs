@@ -15,24 +15,10 @@ namespace Model.Engine.Repository
     {
         protected TDb Db;
 
-        public CRUDRepository(TDb entities)
-        {
-            Db = entities;
-        } 
         public void Create(T item)
         {
             Db.Entry(item).State = EntityState.Added;
             Db.SaveChanges();
-        }
-
-        public IEnumerable<T> GetList()
-        {
-            return Db.Set<T>().ToList();
-        }
-
-        public T GetItem(Expression<Func<T, bool>> predicate)
-        {
-            return Db.Set<T>().SingleOrDefault(predicate);
         }
 
         public void Update(T item)
@@ -46,5 +32,32 @@ namespace Model.Engine.Repository
             Db.Entry(item).State = EntityState.Deleted;
             Db.SaveChanges();
         }
+
+        public IQueryable<T> GetSortList(Expression<Func<T, bool>> predicate)
+        {
+            return Db.Set<T>().Where(predicate);
+        }
+
+        public T GetItem(params object[] keyValue)
+        {
+            return Db.Set<T>().Find(keyValue);
+        }
+
+        public T GetItem(Expression<Func<T, bool>> predicate)
+        {
+            return Db.Set<T>().SingleOrDefault(predicate);
+        }
+
+        public CRUDRepository(TDb entities)
+        {
+            Db = entities;
+        } 
+
+        public IEnumerable<T> GetAllList()
+        {
+            return Db.Set<T>().ToList();
+        }
+
+
     }
 }

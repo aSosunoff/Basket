@@ -25,12 +25,12 @@ namespace Model.Engine.Service.Logic
 
         public int Count()
         {
-            return _contractRepository.GetList().Count();
+            return _contractRepository.GetAllList().Count();
         }
 
         public IEnumerable<AGRO_CONTRACT> GetList()
         {
-            return _contractRepository.GetList();
+            return _contractRepository.GetAllList();
         }
 
         public AGRO_CONTRACT GetItemToId(decimal id)

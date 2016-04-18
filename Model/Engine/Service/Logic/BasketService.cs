@@ -18,7 +18,7 @@ namespace Model.Engine.Service.Logic
 
         public int Count()
         {
-            return BasketRepositoryService.GetList().Count();
+            return BasketRepositoryService.GetAllList().Count();
         }
 
         public void AddedProductToBasket(AGRO_BASKET productToBasket)
@@ -35,7 +35,7 @@ namespace Model.Engine.Service.Logic
 
             //проверяем есть ли такой товар в корзине
             //для этого проверяем его по ID товара пришедшего в объекте корзина
-            var prod = BasketRepositoryService.GetList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
+            var prod = BasketRepositoryService.GetAllList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
             
             //проверяем есть ли такой товар в корзине
             if (prod == null)
@@ -81,7 +81,7 @@ namespace Model.Engine.Service.Logic
 
             return new BasketModels()
             {
-                ProductsToBascet = BasketRepositoryService.GetList()
+                ProductsToBascet = BasketRepositoryService.GetAllList()
             };
         }
 
@@ -90,7 +90,7 @@ namespace Model.Engine.Service.Logic
             bool errorFlag = false;
             errorMessage = String.Empty;
 
-            foreach (var element in BasketRepositoryService.GetList())
+            foreach (var element in BasketRepositoryService.GetAllList())
             {
                 if (RootServiceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT).QUNTITY < element.QANTITY)
                 {
@@ -117,7 +117,7 @@ namespace Model.Engine.Service.Logic
             RootServiceLayer.Get<IContractService>().Create(contract);
 
             //создаём заказ. и перемещаем товары из корзины в заказ
-            foreach (var element in BasketRepositoryService.GetList())
+            foreach (var element in BasketRepositoryService.GetAllList())
             {
                 
                 AGRO_ORDER order = new AGRO_ORDER()

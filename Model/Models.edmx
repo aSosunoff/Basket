@@ -48,6 +48,14 @@
           <Property Name="PRICE_ONE" Type="number" Precision="38" Scale="0" Nullable="false" />
           <Property Name="ID_CATEGORY" Type="number" Precision="38" Scale="0" Nullable="false" />
         </EntityType>
+        <EntityType Name="AGRO_TEST">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="P_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="TEXT" Type="varchar2" MaxLength="20" />
+        </EntityType>
         <Association Name="AGRO_BASKET_FK1">
           <End Role="AGRO_PRODUCT" Type="Self.AGRO_PRODUCT" Multiplicity="1" />
           <End Role="AGRO_BASKET" Type="Self.AGRO_BASKET" Multiplicity="*" />
@@ -90,6 +98,7 @@
           <EntitySet Name="AGRO_CONTRACT" EntityType="Self.AGRO_CONTRACT" Schema="TEST" store:Type="Tables" />
           <EntitySet Name="AGRO_ORDER" EntityType="Self.AGRO_ORDER" Schema="TEST" store:Type="Tables" />
           <EntitySet Name="AGRO_PRODUCT" EntityType="Self.AGRO_PRODUCT" Schema="TEST" store:Type="Tables" />
+          <EntitySet Name="AGRO_TEST" EntityType="Self.AGRO_TEST" Schema="TEST" store:Type="Tables" />
           <AssociationSet Name="AGRO_BASKET_FK1" Association="Self.AGRO_BASKET_FK1">
             <End Role="AGRO_PRODUCT" EntitySet="AGRO_PRODUCT" />
             <End Role="AGRO_BASKET" EntitySet="AGRO_BASKET" />
@@ -125,6 +134,7 @@
             <End Role="AGRO_CATEGORY" EntitySet="AGRO_CATEGORY" />
             <End Role="AGRO_PRODUCT" EntitySet="AGRO_PRODUCT" />
           </AssociationSet>
+          <EntitySet Name="AGRO_TEST" EntityType="Model.AGRO_TEST" />
         </EntityContainer>
         <EntityType Name="AGRO_BASKET">
           <Key>
@@ -211,6 +221,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AGRO_TEST">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="P_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="TEXT" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -261,6 +279,15 @@
             <EntityTypeMapping TypeName="Model.AGRO_CATEGORY">
               <MappingFragment StoreEntitySet="AGRO_CATEGORY">
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGRO_TEST">
+            <EntityTypeMapping TypeName="Model.AGRO_TEST">
+              <MappingFragment StoreEntitySet="AGRO_TEST">
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+                <ScalarProperty Name="P_ID" ColumnName="P_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

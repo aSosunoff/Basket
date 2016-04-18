@@ -23,8 +23,45 @@ namespace AGRO.Controllers
 
             PageModels = new PageModels(_serviceLayer);
         }
+
+        class ModelDown
+        {
+            public int ID_MODEL_DOWN { get; set; }
+            public int LEVEL { get; set; }
+            public AGRO_TEST AgroTest { get; set; }
+        }
+
+        private List<ModelDown> Down(List<ModelDown> modelDowns, decimal parent = 0)
+        {
+            var elements = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == parent).ToList();
+
+            for (int i = 0; i < elements.Count(); i++)
+            {
+                decimal idItem = elements[i].ID;
+                if (_serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == idItem).Any())
+                    Down(modelDowns, elements[i].ID);
+
+                modelDowns.Add(new ModelDown()
+                {
+                    ID_MODEL_DOWN = modelDowns.Count,
+                    LEVEL = i,
+                    AgroTest = elements[i]
+                });
+            }
+            return modelDowns;
+        }
+
         public ActionResult Index()
         {
+            var count = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == 0).ToList();
+
+            var l = Down(new List<ModelDown>(), 6);
+
+            //List<AGRO_TEST> ass = new List<AGRO_TEST>();
+
+            //ass.a
+
+
             return View(PageModels);
         }
 

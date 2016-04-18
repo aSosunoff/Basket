@@ -17,6 +17,8 @@ namespace Model.Engine.Service
             serviceLayer.Get<IProductService>().SetRootService(serviceLayer);
             serviceLayer.Get<IOrderService>().SetRootService(serviceLayer);
             serviceLayer.Get<IContractService>().SetRootService(serviceLayer);
+
+            serviceLayer.Get<ITestService>().SetRootService(serviceLayer);
             return serviceLayer;
         }
         public ServiceLayer(IUnitOfWork unitOfWork)
@@ -25,6 +27,8 @@ namespace Model.Engine.Service
             Objects.Add(typeof(IProductService), new ProductService(unitOfWork));
             Objects.Add(typeof(IOrderService), new OrderService(unitOfWork));
             Objects.Add(typeof(IContractService), new ContractService(unitOfWork));
+
+            Objects.Add(typeof(ITestService), new TestService(unitOfWork));
         }
     }
 }
