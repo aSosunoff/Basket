@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AGRO.Component;
 using AGRO.Models;
 using Model;
 using Model.Engine.Service;
@@ -24,42 +25,54 @@ namespace AGRO.Controllers
             PageModels = new PageModels(_serviceLayer);
         }
 
-        class ModelDown
-        {
-            public int ID_MODEL_DOWN { get; set; }
-            public int LEVEL { get; set; }
-            public AGRO_TEST AgroTest { get; set; }
-        }
+        //class ModelDown
+        //{
+        //    public int ID_MODEL_DOWN { get; set; }
+        //    public int LEVEL { get; set; }
+        //    public AGRO_TEST AgroTest { get; set; }
+        //}
 
-        private List<ModelDown> Down(List<ModelDown> modelDowns, decimal parent = 0)
-        {
-            var elements = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == parent).ToList();
+        //private List<ModelDown> Down(List<ModelDown> modelDowns, decimal parent = 0)
+        //{
+        //    var elements = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == parent).ToList();
 
-            for (int i = 0; i < elements.Count(); i++)
-            {
-                decimal idItem = elements[i].ID;
-                if (_serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == idItem).Any())
-                    Down(modelDowns, elements[i].ID);
+        //    for (int i = 0; i < elements.Count(); i++)
+        //    {
+        //        decimal idItem = elements[i].ID;
+        //        if (_serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == idItem).Any())
+        //            Down(modelDowns, elements[i].ID);
 
-                modelDowns.Add(new ModelDown()
-                {
-                    ID_MODEL_DOWN = modelDowns.Count,
-                    LEVEL = i,
-                    AgroTest = elements[i]
-                });
-            }
-            return modelDowns;
-        }
+        //        modelDowns.Add(new ModelDown()
+        //        {
+        //            ID_MODEL_DOWN = modelDowns.Count,
+        //            LEVEL = i,
+        //            AgroTest = elements[i]
+        //        });
+        //    }
+        //    return modelDowns;
+        //}
+
+        
 
         public ActionResult Index()
         {
-            var count = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == 0).ToList();
 
-            var l = Down(new List<ModelDown>(), 6);
+            //var tree = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == 0).ToList();
 
-            //List<AGRO_TEST> ass = new List<AGRO_TEST>();
 
-            //ass.a
+
+            //foreach (var element in tree)
+            //{
+            //    var setTree = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(element.ID);
+            //}
+
+
+          //  var ccc = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(6);
+
+            var cc = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(6);
+
+            var c = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(6);
+
 
 
             return View(PageModels);
