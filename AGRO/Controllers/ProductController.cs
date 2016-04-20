@@ -56,24 +56,37 @@ namespace AGRO.Controllers
 
         public ActionResult Index()
         {
-
-            //var tree = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == 0).ToList();
-
-
-
-            //foreach (var element in tree)
+            //ConnectByPriorInModel model = new ConnectByPriorInModel()
             //{
-            //    var setTree = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(element.ID);
-            //}
+            //    StartWith = new StartWith()
+            //    {
+            //        ColummName = "ID",
+            //        ColummValue = 16
+            //    },
+            //    ConnectByPrior = new ConnectByPrior()
+            //    {
+            //        Left = "ID",
+            //        Right = "P_ID"
+            //    }
+            //};
 
+            //var f = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(model);
 
-          //  var ccc = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(6);
+            ConnectByPriorInModel model = new ConnectByPriorInModel()
+            {
+                StartWith = new StartWith()
+                {
+                    ColummName = "ID",
+                    ColummValue = 0
+                },
+                ConnectByPrior = new ConnectByPrior()
+                {
+                    Left = "ID",
+                    Right = "P_ID"
+                }
+            };
 
-            var cc = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(6);
-
-            var c = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(6);
-
-
+            var f = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPriorAllElement(model).Where(e => e.FLAG_TREE == true);
 
             return View(PageModels);
         }
