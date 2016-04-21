@@ -81,11 +81,13 @@
     <Compile Include="Engine\IEngine.cs" />
     <Compile Include="Engine\Repository\CRUDRepository.cs" />
     <Compile Include="Engine\Repository\Entity\BasketRepository.cs" />
+    <Compile Include="Engine\Repository\Entity\CategoryRepository.cs" />
     <Compile Include="Engine\Repository\Entity\ContractRepository.cs" />
     <Compile Include="Engine\Repository\Entity\OrderRepository.cs" />
     <Compile Include="Engine\Repository\Entity\ProductRepository.cs" />
     <Compile Include="Engine\Repository\Entity\TestRepository.cs" />
     <Compile Include="Engine\Repository\Interface\IBasketRepository.cs" />
+    <Compile Include="Engine\Repository\Interface\ICategoryRepository.cs" />
     <Compile Include="Engine\Repository\Interface\IContractRepository.cs" />
     <Compile Include="Engine\Repository\Interface\ICRUDRepository.cs" />
     <Compile Include="Engine\Repository\Interface\IOrderRepository.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Engine\Repository\UnitOfWork.cs" />
     <Compile Include="Engine\Service\Interface\IBaseService.cs" />
     <Compile Include="Engine\Service\Interface\IBasketService.cs" />
+    <Compile Include="Engine\Service\Interface\ICategoryService.cs" />
     <Compile Include="Engine\Service\Interface\IContractService.cs" />
     <Compile Include="Engine\Service\Interface\IOrderService.cs" />
     <Compile Include="Engine\Service\Interface\IProductService.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Engine\Service\IServiceLayer.cs" />
     <Compile Include="Engine\Service\Logic\BaseService.cs" />
     <Compile Include="Engine\Service\Logic\BasketService.cs" />
+    <Compile Include="Engine\Service\Logic\CategoryService.cs" />
     <Compile Include="Engine\Service\Logic\ContractService.cs" />
     <Compile Include="Engine\Service\Logic\OrderService.cs" />
     <Compile Include="Engine\Service\Logic\ProductService.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Engine\Service\ServiceLayer.cs" />
     <Compile Include="AGRO_ORDER_Partial.cs" />
     <Compile Include="Infrastructure\BasketModels.cs" />
+    <Compile Include="Infrastructure\ModelCatalog.cs" />
     <Compile Include="Infrastructure\PageModels.cs" />
     <Compile Include="Models.Context.cs">
       <AutoGen>True</AutoGen>

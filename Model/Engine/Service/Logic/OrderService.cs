@@ -8,23 +8,21 @@ using Model.Engine.Service.Interface;
 
 namespace Model.Engine.Service.Logic
 {
-    class OrderService : BaseService, IOrderService
+    public class OrderService : BaseService<IOrderRepository>, IOrderService
     {
-        private IOrderRepository _orderRepository;
 
-        public OrderService(IUnitOfWork unitOfWork)
-        {
-            _orderRepository = unitOfWork.Get<IOrderRepository>();
-        }
+        public OrderService(IUnitOfWork unitOfWork) : base(unitOfWork){}
 
         public void Create(AGRO_ORDER item)
         {
-            _orderRepository.Create(item);
+            _Repository.Create(item);
         }
 
         public IEnumerable<AGRO_ORDER> GetOrdersByIdContract(decimal id)
         {
-            return _orderRepository.GetAllList().Where(e => e.ID_CONTRACT == id);
+            return _Repository.GetAllList().Where(e => e.ID_CONTRACT == id);
         }
+
+        
     }
 }

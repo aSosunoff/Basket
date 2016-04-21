@@ -25,59 +25,40 @@ namespace AGRO.Controllers
             PageModels = new PageModels(_serviceLayer);
         }
 
-        //class ModelDown
-        //{
-        //    public int ID_MODEL_DOWN { get; set; }
-        //    public int LEVEL { get; set; }
-        //    public AGRO_TEST AgroTest { get; set; }
-        //}
-
-        //private List<ModelDown> Down(List<ModelDown> modelDowns, decimal parent = 0)
-        //{
-        //    var elements = _serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == parent).ToList();
-
-        //    for (int i = 0; i < elements.Count(); i++)
-        //    {
-        //        decimal idItem = elements[i].ID;
-        //        if (_serviceLayer.Get<ITestService>().TestRepository.GetSortList(e => e.P_ID == idItem).Any())
-        //            Down(modelDowns, elements[i].ID);
-
-        //        modelDowns.Add(new ModelDown()
-        //        {
-        //            ID_MODEL_DOWN = modelDowns.Count,
-        //            LEVEL = i,
-        //            AgroTest = elements[i]
-        //        });
-        //    }
-        //    return modelDowns;
-        //}
-
-        
-
-        public ActionResult Index()
+        public ActionResult Category(int id)
         {
-            //ConnectByPriorInModel model = new ConnectByPriorInModel()
-            //{
-            //    StartWith = new StartWith()
-            //    {
-            //        ColummName = "ID",
-            //        ColummValue = 16
-            //    },
-            //    ConnectByPrior = new ConnectByPrior()
-            //    {
-            //        Left = "ID",
-            //        Right = "P_ID"
-            //    }
-            //};
-
-            //var f = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPrior(model);
+            ModelCatalog modelCatalog = new ModelCatalog();
 
             ConnectByPriorInModel model = new ConnectByPriorInModel()
             {
                 StartWith = new StartWith()
                 {
                     ColummName = "ID",
-                    ColummValue = 0
+                    ColummValue = id
+                },
+                ConnectByPrior = new ConnectByPrior()
+                {
+                    Left = "ID",
+                    Right = "P_ID"
+                }
+            };
+            //TODO: Сделать Reset модели 
+
+            modelCatalog.Categorys = _serviceLayer
+                .Get<ICategoryService>()
+                                        ._Repository
+                                        .GetAllList()
+                                        .ConnectByPrior(model)
+                                        .Where(e => e.LEVEL > 1)
+                                        .RemoveWrapModel();
+
+
+            model = new ConnectByPriorInModel()
+            {
+                StartWith = new StartWith()
+                {
+                    ColummName = "ID",
+                    ColummValue = id
                 },
                 ConnectByPrior = new ConnectByPrior()
                 {
@@ -86,9 +67,47 @@ namespace AGRO.Controllers
                 }
             };
 
-            var f = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPriorAllElement(model).Where(e => e.FLAG_TREE == true);
 
-            return View(PageModels);
+            decimal[] arrayIdCategory = _serviceLayer
+                .Get<ICategoryService>()
+                ._Repository
+                .GetAllList()
+                .ConnectByPrior(model)
+                .Where(e => e.FLAG_TREE)
+                .RemoveWrapModel().Select(e => e.ID)
+                .ToArray();
+
+            modelCatalog.Products = _serviceLayer
+                .Get<IProductService>()
+                ._Repository
+                .GetSortList(e => arrayIdCategory
+                    .Contains(e.ID_CATEGORY))
+                .ToList();
+
+            return View(modelCatalog);
+        }
+
+        
+
+        public ActionResult Index(int id = 0)
+        {
+            ConnectByPriorInModel model = new ConnectByPriorInModel()
+            {
+                StartWith = new StartWith()
+                {
+                    ColummName = "ID",
+                    ColummValue = id
+                },
+                ConnectByPrior = new ConnectByPrior()
+                {
+                    Left = "ID",
+                    Right = "P_ID"
+                }
+            };
+
+            //var f = _serviceLayer.Get<ITestService>().TestRepository.GetAllList().ConnectByPriorAllElement(model).Where(e => e.FLAG_TREE);
+
+          return View(_serviceLayer.Get<IProductService>()._Repository.GetAllList());
         }
 
         public ActionResult Details(int id)
@@ -122,7 +141,7 @@ namespace AGRO.Controllers
                 catch (Exception ex)
                 {
                     ModelState["basket.QANTITY"].Errors.Add(ex.Message);
-                    PageModels.ErrorMessage = ex.Message;
+                    ViewBag.ErrorMessage = ex.Message;
                 }
             }
             PageModels.Basket = basket;
@@ -140,7 +159,7 @@ namespace AGRO.Controllers
             }
             catch (Exception ex)
             {
-                PageModels.ErrorMessage = ex.Message;
+                ViewBag.ErrorMessage = ex.Message;
             }
             return View(PageModels);
         }
@@ -159,7 +178,7 @@ namespace AGRO.Controllers
             }
             catch (Exception ex)
             {
-                PageModels.ErrorMessage = ex.Message;
+                ViewBag.ErrorMessage = ex.Message;
             }
             return View("Basket", PageModels);
             //todo: Вывести детальное предупреждение. Предусмотреть удаление товара из корзины которого нет на складе. Так же итоговую сумму выводить без сложения с товаром которого нет на складе

@@ -6,9 +6,8 @@ using Model.Infrastructure;
 
 namespace Model.Engine.Service.Interface
 {
-    public interface IProductService : IBaseService
+    public interface IProductService : IBaseService<IProductRepository>
     {
-        IProductRepository ProductRepositoryService { get; set; }
         BasketModels GetBasketModels();
         AGRO_PRODUCT GetItemToId(decimal id);
         void Update(AGRO_PRODUCT item);

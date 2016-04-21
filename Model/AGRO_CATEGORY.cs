@@ -22,6 +22,7 @@ namespace Model
     
         public decimal ID { get; set; }
         public string NAME { get; set; }
+        public decimal P_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AGRO_PRODUCT> AGRO_PRODUCT { get; set; }

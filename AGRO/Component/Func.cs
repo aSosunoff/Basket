@@ -28,7 +28,6 @@ namespace AGRO.Component
     public class StartWith
     {
         public string ColummName { get; set; }
-        //todo поменять на независимый тип. сейчас вытягивается поле из бд которое имеет тип Decimal
         public decimal ColummValue { get; set; }
     }
 
@@ -38,35 +37,31 @@ namespace AGRO.Component
         public string Right { get; set; }
     }
 
-
-
-
-
-
-
-
     public static class JazzClass
     {
-        private static string StartWithPropertyName = "ID";
-
-        private static string ByPriorName = "P_ID";
-
-
-
-        public static List<WrapModel<T>> ConnectByPrior<T>(this IEnumerable<T> list, decimal startWithId)
+        public static string GetValueString<T>(this T item, string colName)
         {
-            return ConnectByPriorDown(list, startWithId, null);
+            return (string)item.GetType().GetProperty(colName).GetValue(item, null);
+        }
+        public static int GetValueInt<T>(this T item, string colName)
+        {
+            return (int)item.GetType().GetProperty(colName).GetValue(item, null);
+        }
+        public static decimal GetValueDecimal<T>(this T item, string colName)
+        {
+            return (decimal)item.GetType().GetProperty(colName).GetValue(item, null);
         }
 
-        public static List<WrapModel<T>> ConnectByPrior<T>(this IEnumerable<T> list, decimal startWithId, List<WrapModel<T>> PriorModels)
+        public static IEnumerable<T> RemoveWrapModel<T>(this IEnumerable<WrapModel<T>> wrapModels)
         {
-            return ConnectByPriorDown(list, startWithId, PriorModels);
+            List<T> list = new List<T>();
+
+            foreach (var element in wrapModels)
+            {
+                list.Add(element.ITEM);
+            }
+            return list;
         }
-
-
-
-
-
 
 
 
@@ -76,13 +71,13 @@ namespace AGRO.Component
 
         public static List<WrapModel<T>> ConnectByPriorAllElement<T>(this IEnumerable<T> list, ConnectByPriorInModel model)
         {
-            var parentList = list.Where(e => (decimal)e.GetType().GetProperty(model.ConnectByPrior.Right).GetValue(e, null) == model.StartWith.ColummValue).ToList();
+            var parentList = list.Where(e => e.GetValueDecimal(model.ConnectByPrior.Right) == model.StartWith.ColummValue).ToList();
 
             List<WrapModel<T>> priorModels = new List<WrapModel<T>>();
 
             foreach (var element in parentList)
             {
-                model.StartWith.ColummValue = (decimal)element.GetType().GetProperty(model.ConnectByPrior.Left).GetValue(element, null);
+                model.StartWith.ColummValue = element.GetValueDecimal(model.ConnectByPrior.Left);
 
                 priorModels = list.ConnectByPrior(model, priorModels);
             }
@@ -95,7 +90,7 @@ namespace AGRO.Component
             if(priorModels == null)
                 priorModels = new List<WrapModel<T>>();
 
-            var currentElement = list.SingleOrDefault(e => (decimal)e.GetType().GetProperty(inModel.StartWith.ColummName).GetValue(e, null) == inModel.StartWith.ColummValue);
+            var currentElement = list.SingleOrDefault(e => e.GetValueDecimal(inModel.StartWith.ColummName) == inModel.StartWith.ColummValue);
             //Выбираем корневой элемент
             if (currentElement != null)
             {
@@ -115,9 +110,9 @@ namespace AGRO.Component
                     //Флаг является ли элемент последним в цепочке
                 });
 
-                inModel.StartWith.ColummValue = (decimal)currentElement.GetType().GetProperty(inModel.ConnectByPrior.Left).GetValue(currentElement, null);
+                inModel.StartWith.ColummValue = currentElement.GetValueDecimal(inModel.ConnectByPrior.Left);
 
-                if (list.Any(e => (decimal)e.GetType().GetProperty(inModel.ConnectByPrior.Right).GetValue(e, null) == inModel.StartWith.ColummValue))
+                if (list.Any(e => e.GetValueDecimal(inModel.ConnectByPrior.Right) == inModel.StartWith.ColummValue))
                 {
                     priorModels[priorModels.Count - 1].FLAG_TREE = false;
                     lvl++;
@@ -131,7 +126,7 @@ namespace AGRO.Component
 
         private static List<WrapModel<T>> ConnectByPriorLoop<T>(IEnumerable<T> list, ConnectByPriorInModel inModel, List<WrapModel<T>> PriorModels, int LEVEL)
         {
-            var elements = list.Where(e => (decimal)e.GetType().GetProperty(inModel.ConnectByPrior.Right).GetValue(e, null) == inModel.StartWith.ColummValue).ToList();
+            var elements = list.Where(e => e.GetValueDecimal(inModel.ConnectByPrior.Right) == inModel.StartWith.ColummValue).ToList();
 
             for (int i = 0; i < elements.Count(); i++)
             {
@@ -144,9 +139,9 @@ namespace AGRO.Component
                     FLAG_TREE = false
                 });
 
-                inModel.StartWith.ColummValue = (decimal)elements[i].GetType().GetProperty(inModel.ConnectByPrior.Left).GetValue(elements[i], null);
+                inModel.StartWith.ColummValue = elements[i].GetValueDecimal(inModel.ConnectByPrior.Left);
 
-                if (list.Any(e => (decimal)e.GetType().GetProperty(inModel.ConnectByPrior.Right).GetValue(e, null) == inModel.StartWith.ColummValue))
+                if (list.Any(e => e.GetValueDecimal(inModel.ConnectByPrior.Right) == inModel.StartWith.ColummValue))
                 {
                     LEVEL += 1;
                     PriorModels = ConnectByPriorLoop(list, inModel, PriorModels, LEVEL);
@@ -166,58 +161,6 @@ namespace AGRO.Component
         private enum TheeLevel
         {
             Start = 1
-        }
-
-        private static List<WrapModel<T>> ConnectByPriorDown<T>(IEnumerable<T> list, decimal startWithId, List<WrapModel<T>> PriorModels, int LEVEL = (int)TheeLevel.Start)
-        {
-            var currentElement = list.SingleOrDefault(e => (decimal)e.GetType().GetProperty(StartWithPropertyName).GetValue(e, null) == startWithId);
-            if (currentElement != null)
-            {
-                if (LEVEL == (int) TheeLevel.Start)
-                {
-                    //TODO: повторение кода
-                    if (PriorModels == null)
-                        PriorModels = new List<WrapModel<T>>();
-
-                    PriorModels.Add(new WrapModel<T>()
-                    {
-                        ID = PriorModels.Count + 1,
-                        LEVEL = LEVEL,
-                        ITEM = currentElement,
-                        FLAG_TREE = false
-                    });
-
-                    LEVEL++;
-                }
-
-                var elements = list.Where(e => (decimal)e.GetType().GetProperty(ByPriorName).GetValue(e, null) == startWithId).ToList();
-
-                for (int i = 0; i < elements.Count(); i++)
-                {
-
-                    PriorModels.Add(new WrapModel<T>()
-                    {
-                        ID = PriorModels.Count + 1,
-                        LEVEL = LEVEL,
-                        ITEM = elements[i],
-                        FLAG_TREE = false
-                    });
-
-                    startWithId = (decimal)elements[i].GetType().GetProperty(StartWithPropertyName).GetValue(elements[i], null);
-
-                    if (list.Any(e => (decimal) e.GetType().GetProperty(ByPriorName).GetValue(e, null) == startWithId))
-                    {
-                        LEVEL += 1;
-                        PriorModels = ConnectByPriorDown(list, startWithId, PriorModels, LEVEL);
-                        LEVEL -= 1;
-                    }
-                    PriorModels[PriorModels.Count - 1].FLAG_TREE = true;
-                }
-
-                return PriorModels;
-            }
-
-            throw new Exception("Error"); 
         }
     }
 }

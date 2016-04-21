@@ -2,7 +2,8 @@
 
 namespace Model.Engine.Service.Interface
 {
-    public interface ITestService : IBaseService<ITestRepository>
+    public interface ICategoryService : IBaseService<ICategoryRepository>
     {
+         
     }
 }

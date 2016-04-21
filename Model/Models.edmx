@@ -20,6 +20,7 @@
           </Key>
           <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="P_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="AGRO_CONTRACT">
           <Key>
@@ -208,6 +209,7 @@
           <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AGRO_PRODUCT" Relationship="Model.AGRO_PRODUCT_FK1" FromRole="AGRO_CATEGORY" ToRole="AGRO_PRODUCT" />
+          <Property Name="P_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
         </EntityType>
         <Association Name="AGRO_PRODUCT_FK1">
           <End Type="Model.AGRO_CATEGORY" Role="AGRO_CATEGORY" Multiplicity="1" />
@@ -278,6 +280,7 @@
           <EntitySetMapping Name="AGRO_CATEGORY">
             <EntityTypeMapping TypeName="Model.AGRO_CATEGORY">
               <MappingFragment StoreEntitySet="AGRO_CATEGORY">
+                <ScalarProperty Name="P_ID" ColumnName="P_ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

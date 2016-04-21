@@ -8,9 +8,9 @@ using Model.Engine.Service.Interface;
 
 namespace Model.Engine.Service.Logic
 {
-    class TestService : BaseService<ITestRepository>, ITestService
+    public class CategoryService : BaseService<ICategoryRepository>, ICategoryService
     {
-        public TestService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public CategoryService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
     }

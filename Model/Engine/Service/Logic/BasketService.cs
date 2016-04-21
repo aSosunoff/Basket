@@ -7,18 +7,12 @@ using Model.Infrastructure;
 
 namespace Model.Engine.Service.Logic
 {
-    public class BasketService : BaseService, IBasketService
+    public class BasketService : BaseService<IBasketRepository>, IBasketService
     {
-        public IBasketRepository BasketRepositoryService { get; set; }
-
-        public BasketService(IUnitOfWork unitOfWork)
-        {
-            BasketRepositoryService = unitOfWork.Get<IBasketRepository>();
-        }
-
+        public BasketService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
         public int Count()
         {
-            return BasketRepositoryService.GetAllList().Count();
+            return _Repository.GetAllList().Count();
         }
 
         public void AddedProductToBasket(AGRO_BASKET productToBasket)
@@ -35,13 +29,13 @@ namespace Model.Engine.Service.Logic
 
             //проверяем есть ли такой товар в корзине
             //для этого проверяем его по ID товара пришедшего в объекте корзина
-            var prod = BasketRepositoryService.GetAllList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
+            var prod = _Repository.GetAllList().SingleOrDefault(x => x.ID_PRODUCT == productToBasket.ID_PRODUCT);
             
             //проверяем есть ли такой товар в корзине
             if (prod == null)
             {
                 productToBasket.DATA_START = DateTime.Now;
-                BasketRepositoryService.Create(productToBasket);
+                _Repository.Create(productToBasket);
             }
             else
             {
@@ -67,7 +61,7 @@ namespace Model.Engine.Service.Logic
                 prod.DATA_START = DateTime.Now;
                 prod.QANTITY = sumQantity;
 
-                BasketRepositoryService.Update(prod);
+                _Repository.Update(prod);
             }
         }
 
@@ -81,7 +75,7 @@ namespace Model.Engine.Service.Logic
 
             return new BasketModels()
             {
-                ProductsToBascet = BasketRepositoryService.GetAllList()
+                ProductsToBascet = _Repository.GetAllList()
             };
         }
 
@@ -90,7 +84,7 @@ namespace Model.Engine.Service.Logic
             bool errorFlag = false;
             errorMessage = String.Empty;
 
-            foreach (var element in BasketRepositoryService.GetAllList())
+            foreach (var element in _Repository.GetAllList())
             {
                 if (RootServiceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT).QUNTITY < element.QANTITY)
                 {
@@ -117,7 +111,7 @@ namespace Model.Engine.Service.Logic
             RootServiceLayer.Get<IContractService>().Create(contract);
 
             //создаём заказ. и перемещаем товары из корзины в заказ
-            foreach (var element in BasketRepositoryService.GetAllList())
+            foreach (var element in _Repository.GetAllList())
             {
                 
                 AGRO_ORDER order = new AGRO_ORDER()
@@ -137,7 +131,7 @@ namespace Model.Engine.Service.Logic
                 RootServiceLayer.Get<IProductService>().Update(RootServiceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT));
                 
                 //удаляем из корзины
-                BasketRepositoryService.Delete(element);
+                _Repository.Delete(element);
             }
         }
     }

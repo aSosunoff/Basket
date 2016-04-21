@@ -8,34 +8,30 @@ using Model.Engine.Service.Interface;
 
 namespace Model.Engine.Service.Logic
 {
-    public class ContractService : BaseService, IContractService
+    public class ContractService : BaseService<IContractRepository>, IContractService
     {
-        //todo: приходиться всё время копировать. Придумать автоматическую генерацию
-        private IContractRepository _contractRepository;
-
-        public ContractService(IUnitOfWork unitOfWork)
+        public ContractService(IUnitOfWork unitOfWork): base(unitOfWork)
         {
-            _contractRepository = unitOfWork.Get<IContractRepository>();
         }
 
         public void Create(AGRO_CONTRACT item)
         {
-            _contractRepository.Create(item);
+            _Repository.Create(item);
         }
 
         public int Count()
         {
-            return _contractRepository.GetAllList().Count();
+            return _Repository.GetAllList().Count();
         }
 
         public IEnumerable<AGRO_CONTRACT> GetList()
         {
-            return _contractRepository.GetAllList();
+            return _Repository.GetAllList();
         }
 
         public AGRO_CONTRACT GetItemToId(decimal id)
         {
-            return _contractRepository.GetItem(e => e.ID == id);
+            return _Repository.GetItem(e => e.ID == id);
         }
     }
 }

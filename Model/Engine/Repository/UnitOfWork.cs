@@ -18,6 +18,7 @@ namespace Model.Engine.Repository
             Objects.Add(typeof(IProductRepository), new ProductRepository(_entities));
             Objects.Add(typeof(IOrderRepository), new OrderRepository(_entities));
             Objects.Add(typeof(IContractRepository), new ContractRepository(_entities));
+            Objects.Add(typeof(ICategoryRepository), new CategoryRepository(_entities));
 
             Objects.Add(typeof(ITestRepository), new TestRepository(_entities));
         }

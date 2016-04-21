@@ -33,14 +33,7 @@ namespace Model.Infrastructure
             set { }
             get { return _serviceLayer.Get<IContractService>().Count(); }    
         }
-        /// <summary>
-        /// Все продукты в системе
-        /// </summary>
-        public IEnumerable<AGRO_PRODUCT> Products
-        {
-            set { }
-            get { return _serviceLayer.Get<IProductService>().ProductRepositoryService.GetAllList(); } 
-        }
+
 
         /// <summary>
         /// Товары которые лежат в корзине
@@ -52,7 +45,7 @@ namespace Model.Infrastructure
                 //проверяем есть ли добавленый ранее товар в корзину на складе
                 //если нет то выводим предупреждающее сообщение            
 
-                return _serviceLayer.Get<IBasketService>().BasketRepositoryService.GetAllList();
+                return _serviceLayer.Get<IBasketService>()._Repository.GetAllList();
             } 
             set{}
         }
@@ -105,7 +98,7 @@ namespace Model.Infrastructure
             bool errorFlag = false;
             errorMessage = String.Empty;
 
-            foreach (var element in _serviceLayer.Get<IBasketService>().BasketRepositoryService.GetAllList())
+            foreach (var element in _serviceLayer.Get<IBasketService>()._Repository.GetAllList())
             {
                 if (_serviceLayer.Get<IProductService>().GetItemToId(element.ID_PRODUCT).QUNTITY < element.QANTITY)
                 {
