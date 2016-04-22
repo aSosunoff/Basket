@@ -14,22 +14,23 @@
     </head>
 <body>
 
-    <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Agro", "Index", null, new { @class = "navbar-brand" })
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                @*<ul class="nav navbar-nav">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @Html.ActionLink("Agro", "Index", null, new { @class = "navbar-brand" })
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        @*<ul class="nav navbar-nav">
                         <li class="active"><a href="#">Ссылка</a></li>
                         <li><a href="#">Ссылка</a></li>
                         <li class="dropdown">
@@ -51,27 +52,26 @@
                         </div>
                         <button type="submit" class="btn btn-default">Отправить</button>
                     </form>*@
-                <ul class="nav navbar-nav navbar-right">
-                    @if (@ViewBag.CountElementToContract != null)
-                    {
-                        <li>
-                            @Html.ActionLinkContractCount(String.Empty, "OrderList", "Product", (int)@ViewBag.CountElementToContract)
-                        </li>
-                    }
-                    @if (@ViewBag.CountElementToBasket != null)
-                    {
-                        <li>
-                            @Html.ActionLinkBasketCount(String.Empty, "Basket", "Product", (int)@ViewBag.CountElementToBasket)
-                        </li>
-                    }
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-
-
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (@ViewBag.CountElementToContract != null)
+                            {
+                                <li>
+                                    @Html.ActionLinkContractCount(String.Empty, "OrderList", "Product", (int)@ViewBag.CountElementToContract)
+                                </li>
+                            }
+                            @if (@ViewBag.CountElementToBasket != null)
+                            {
+                                <li>
+                                    @Html.ActionLinkBasketCount(String.Empty, "Basket", "Product", (int)@ViewBag.CountElementToBasket)
+                                </li>
+                            }
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
 
     <div class="container">
+
         @*@if (@Model.ErrorMessage != null)*@
         @if (@ViewBag.ErrorMessage != null)
         {
@@ -81,27 +81,40 @@
         @if (@ViewBag.Title != null)
         {
             <div class="row">
-                <div class="page-header">
-                    <h3>@ViewBag.Title</h3>
+                <div class="col-lg-12">
+                    <div class="page-header">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
                 </div>
             </div>
         }
 
         <div class="row">
             <div class="col-lg-3">
-                
+
+                @*@if (@ViewBag.WrapModels != null)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Меню</h3>
+                            </div>
+                            <div class="panel-body">
+                                @Html.MenuLink("Category", "Product", (IEnumerable<WrapModel<AGRO_CATEGORY>>) @ViewBag.WrapModels)
+                            </div>
+                        </div>
+                    }*@
                 @if (@ViewBag.WrapModels != null)
                 {
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Меню</h3>
-                        </div>
-                        <div class="panel-body">
-                            @Html.MenuLink("Category", "Product", (IEnumerable<WrapModel<AGRO_CATEGORY>>) @ViewBag.WrapModels)
-                        </div>
+                    <div class="list-group list-cust">
+                        <h5 class="list-group-item active">Меню</h5>
+
+
+                        @Html.MenuLink("Category", "Product", (IEnumerable<WrapModel<AGRO_CATEGORY>>) @ViewBag.WrapModels)
+                        @*
+                            <p class="list-group-item-text">Каждый веб-разработчик знает, что такое текст-«рыба». Текст этот, несмотря на название, не имеет никакого отношения к обитателям водоемов...</p>*@
+
                     </div>
                 }
-
 
                 <div class="list-group list-cust">
                     <a href="#" class="list-group-item active">Новости</a>

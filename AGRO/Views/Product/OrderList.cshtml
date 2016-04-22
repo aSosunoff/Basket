@@ -1,42 +1,39 @@
 ﻿@model IEnumerable<Model.AGRO_CONTRACT>
 
 @{
-    ViewBag.Title = "Order";
+    ViewBag.Title = "Заказы";
 }
 
-<h2>Заказы</h2>
+<div class="list-group list-cust">
+    <h5 class="list-group-item active">Оформленные</h5>
+    <div class="col-lg-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Наименование
+                </th>
+                <th>
+                    Дата
+                </th>
+            </tr>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-<table class="table">
-    <tr>
-        <th>
-            Наименование
-        </th>
-        <th>
-            Дата
-            @*@Html.DisplayNameFor(Model.Contracts => Model.Contracts.DATE_START)*@
-        </th>
-        @*<th></th>*@
-    </tr>
+            @{ int i = 1; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Заказ №", "Order", new { id = item.ID })  @(i++)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DATE_START)
+                    </td>
+                </tr>
+            }
 
-@{ int i = 1; }
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.ActionLink("Заказ №", "Order", new{ id = item.ID})  @(i++)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DATE_START)
-        </td>
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>*@
-    </tr>
-}
+        </table>
 
-</table>
+    </div>
+</div>
+
+
+

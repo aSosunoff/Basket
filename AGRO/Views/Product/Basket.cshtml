@@ -2,67 +2,75 @@
 
 
 @{
-    ViewBag.Title = "Basket";
+    ViewBag.Title = "Корзина";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h2>Basket</h2>
-    
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-
-    <table class="table">
-        <tr>
-            <th>
-                Наименование
-            </th>
-            <th>
-                Колличество
-            </th>
-            <th>
-                Стоимость
-            </th>
-            <th>
-                Дата добавления
-            </th>
-            @*<th></th>*@
-        </tr>
-
-        @foreach (var item in Model)
-        {
+<div class="list-group list-cust">
+    <h5 class="list-group-item active">Товары в корзине</h5>
+    <div class="col-lg-12">
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AGRO_PRODUCT.NAME)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QANTITY)
-                    @Html.HiddenFor(modelItem => item.QANTITY)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SUM_QANTITY)
-                    @Html.HiddenFor(modelItem => item.SUM_QANTITY)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DATA_START)
-                    @Html.HiddenFor(modelItem => item.DATA_START)
-                </td>
-                @*<td>
+                <th>
+                    @Html.DisplayNameFor(modelItem => modelItem.AGRO_PRODUCT.NAME)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => modelItem.QANTITY)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => modelItem.AGRO_PRODUCT.PRICE_ONE)
+                </th>
+                <th>
+                    Общая сумма продукта
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => modelItem.DATA_START)
+                </th>
+                @*<th></th>*@
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AGRO_PRODUCT.NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QANTITY)
+                        @Html.HiddenFor(modelItem => item.QANTITY)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AGRO_PRODUCT.PRICE_ONE)
+                    </td>
+                    <td>
+                        @{ var resSum = item.QANTITY*item.AGRO_PRODUCT.PRICE_ONE; }
+                        @resSum
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DATA_START)
+                        @Html.HiddenFor(modelItem => item.DATA_START)
+                    </td>
+                    @*<td>
                         @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
                         @Html.ActionLink("Details", "Details", new { id=item.ID }) |
                         @Html.ActionLink("Delete", "Delete", new { id=item.ID })
                     </td>*@
+                </tr>
+            }
+            <tr>
+                <td>Итого:</td>
+                <td></td>
+                <td></td>
+                <td>@Model.Sum(x => x.QANTITY*x.AGRO_PRODUCT.PRICE_ONE)</td>
+                <td></td>
             </tr>
-        }
-        <tr>
-            <td>Итого:</td>
-            <td></td>
-            <td>@Model.Sum(x => x.QANTITY * x.AGRO_PRODUCT.PRICE_ONE)</td>
-            <td></td>
-        </tr>
-    </table>
-    
-    
-    @Html.ActionLink("Оформить заказ", "BasketToOrder", null, new { @class = "btn btn-primary" })
+        </table>
+    </div>
+</div>
+
+@Html.ActionLink("Оформить заказ", "BasketToOrder", null, new { @class = "btn btn-primary" })
+
+
+
     
 
