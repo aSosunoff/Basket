@@ -15,23 +15,24 @@ using Model.Infrastructure;
 
 namespace AGRO.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : MainController
     {
-        public IServiceLayer _serviceLayer { get; set; }
-        private StartViewBag StartViewBag { get; set; }
+        public ProductController(IServiceLayer serviceLayer) : base(serviceLayer){}
+        //public IServiceLayer _serviceLayer { get; set; }
+        //private StartViewBag StartViewBag { get; set; }
 
-        public ProductController(IServiceLayer serviceLayer)
-        {
-            _serviceLayer = ServiceLayer.Instance(serviceLayer);
+        //public ProductController(IServiceLayer serviceLayer)
+        //{
+        //    _serviceLayer = ServiceLayer.Instance(serviceLayer);
 
-            StartViewBag = new StartViewBag(_serviceLayer);
+        //    StartViewBag = new StartViewBag(_serviceLayer);
 
-            ViewBag.CountElementToBasket = StartViewBag.CountElementToBasket;
-            ViewBag.CountElementToContract = StartViewBag.CountElementToContract;
-            ViewBag.WrapModels = StartViewBag.WrapModels;
+        //    ViewBag.CountElementToBasket = StartViewBag.CountElementToBasket;
+        //    ViewBag.CountElementToContract = StartViewBag.CountElementToContract;
+        //    ViewBag.WrapModels = StartViewBag.WrapModels;
 
 
-        }
+        //}
 
         public ActionResult Category(int id)
         {
@@ -196,6 +197,7 @@ namespace AGRO.Controllers
         {
             return View("OrderDetails", _serviceLayer.Get<IOrderService>().GetOrdersByIdContract(id));
         }
+
 
     }
 }
