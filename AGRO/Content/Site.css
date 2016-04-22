@@ -1,3 +1,21 @@
 ﻿.navbar {
     border-radius: 0px;
 }
+
+  .list-cust .list-group-item:first-child {
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+    }
+
+    .list-cust .list-group-item:last-child {
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    .list-cust .list-group-item {
+       border-right:0px;
+       border-left:0px;
+    }
+    .list-group :not(:first-child) {
+        background-color: #EEE;
+        
+    }

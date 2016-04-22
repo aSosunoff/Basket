@@ -1,4 +1,4 @@
-﻿@model Model.Infrastructure.PageModels
+﻿@model IEnumerable<Model.AGRO_BASKET>
 
 
 @{
@@ -29,7 +29,7 @@
             @*<th></th>*@
         </tr>
 
-        @foreach (var item in Model.ProductsToBascet)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -57,7 +57,7 @@
         <tr>
             <td>Итого:</td>
             <td></td>
-            <td>@Html.DisplayFor(model => model.ResultAllSumToBasket)</td>
+            <td>@Model.Sum(x => x.QANTITY * x.AGRO_PRODUCT.PRICE_ONE)</td>
             <td></td>
         </tr>
     </table>

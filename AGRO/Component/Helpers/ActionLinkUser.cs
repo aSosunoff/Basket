@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Model;
 using Model.Engine.Repository;
 using Model.Engine.Service;
 using Model.Engine.Service.Interface;
@@ -12,41 +13,15 @@ namespace AGRO.Component.Helpers
 {
     public static class ActionLinkUser
     {
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
 
-        
-
-        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string actionName, string controllerName)
-        {
-            IServiceLayer _serviceLayer = new ServiceLayer(new UnitOfWork());
-
-            ConnectByPriorInModel model = new ConnectByPriorInModel()
-            {
-                StartWith = new StartWith()
-                {
-                    ColummName = "ID",
-                    ColummValue = 0
-                },
-                ConnectByPrior = new ConnectByPrior()
-                {
-                    Left = "ID",
-                    Right = "P_ID"
-                }
-            };
-
-            string HtmlSet = _serviceLayer.Get<ICategoryService>()._Repository.GetAllList().ConnectByPriorAllElement(model).GetHtmlSet(actionName, controllerName);
-
-            return new MvcHtmlString(HtmlSet);
-        }
-
-        private static string GetHtmlSet<T>(this IEnumerable<WrapModel<T>> wrapModels, string actionName, string controllerName)
+        public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string actionName, string controllerName, IEnumerable<WrapModel<AGRO_CATEGORY>> wrapModels)
         {
             TagBuilder ul = new TagBuilder("ul");
             ul.AddCssClass("nav nav-pills nav-stacked");
 
             ul.InnerHtml += GetTagLi(wrapModels, wrapModels.Where(e => e.LEVEL == 1), actionName, controllerName);
-            return ul.ToString();
+
+            return new MvcHtmlString(ul.ToString());
         }
 
         private static string GetTagLi<T>(IEnumerable<WrapModel<T>> wrapModels, IEnumerable<WrapModel<T>> wrapModelsCopy, string actionName, string controllerName, string resLine = "")

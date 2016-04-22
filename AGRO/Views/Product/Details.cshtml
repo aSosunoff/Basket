@@ -1,11 +1,11 @@
-﻿@model Model.Infrastructure.PageModels
+﻿@model Model.AGRO_PRODUCT
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Html.DisplayFor(model => model.Product.NAME)</h2>
+<h2>@Html.DisplayFor(model => model.NAME)</h2>
 
 <fieldset>
     @*<legend>AGRO_PRODUCT</legend>*@
@@ -18,17 +18,17 @@
     </div>*@
 
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.Product.QUNTITY)
+        @Html.DisplayNameFor(model => model.QUNTITY)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Product.QUNTITY)
+        @Html.DisplayFor(model => model.QUNTITY)
     </div>
 
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.Product.PRICE_ONE)
+        @Html.DisplayNameFor(model => model.PRICE_ONE)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Product.PRICE_ONE)
+        @Html.DisplayFor(model => model.PRICE_ONE)
     </div>
 </fieldset>
 

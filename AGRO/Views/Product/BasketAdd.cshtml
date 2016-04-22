@@ -1,5 +1,5 @@
-﻿@*@model Model.AGRO_BASKET*@
-@model Model.Infrastructure.PageModels 
+﻿@model Model.AGRO_BASKET
+
 
 @{
     ViewBag.Title = "Basket";
@@ -15,13 +15,13 @@
     @*<fieldset>
         <legend>AGRO_PRODUCT</legend>*@
 
-        @Html.HiddenFor(model => model.Basket.ID)
-        @Html.HiddenFor(model => model.Basket.ID_PRODUCT)
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.ID_PRODUCT)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Basket.QANTITY, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.Basket.QANTITY, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите колличество" } })
-        @Html.ValidationMessageFor(model => model.Basket.QANTITY)
+        @Html.LabelFor(model => model.QANTITY, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.QANTITY, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите колличество" } })
+        @Html.ValidationMessageFor(model => model.QANTITY)
     </div>
 
         @*<div class="editor-label">

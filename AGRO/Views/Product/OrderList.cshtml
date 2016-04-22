@@ -1,6 +1,5 @@
-﻿@*@model IEnumerable<Model.AGRO_CONTRACT>*@
+﻿@model IEnumerable<Model.AGRO_CONTRACT>
 
-@model Model.Infrastructure.PageModels
 @{
     ViewBag.Title = "Order";
 }
@@ -23,7 +22,7 @@
     </tr>
 
 @{ int i = 1; }
-@foreach (var item in Model.Contracts)
+@foreach (var item in Model)
 {
     <tr>
         <td>

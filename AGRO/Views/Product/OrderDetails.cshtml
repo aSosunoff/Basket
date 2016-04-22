@@ -1,7 +1,4 @@
-﻿@*@model IEnumerable<Model.AGRO_ORDER>*@
-
-@model Model.Infrastructure.PageModels
-
+﻿@model IEnumerable<Model.AGRO_ORDER>
 @{
     ViewBag.Title = "OrderDetails";
 }
@@ -11,24 +8,20 @@
 <table class="table">
     <tr>
         <th>
-            Наименование
-            @*@Html.DisplayNameFor(e => e.Orders.NAME)*@
+            @Html.DisplayNameFor(e => e.NAME)
         </th>
         <th>
-            Количество
-            @*@Html.DisplayNameFor(e => e.QANTITY)*@
+            @Html.DisplayNameFor(e => e.QANTITY)
         </th>
         <th>
-            Цена за единицу
-            @*@Html.DisplayNameFor(e => e.PRICE_ONE)*@
+            @Html.DisplayNameFor(e => e.PRICE_ONE)
         </th>
         <th>
-            Дата составления
-            @*@Html.DisplayNameFor(e => e.AGRO_CONTRACT.DATE_START)*@
+            @Html.DisplayNameFor(e => e.AGRO_CONTRACT.DATE_START)
         </th>
     </tr>
 
-    @foreach (var item in Model.Orders)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -48,23 +41,7 @@
     <tr>
         <td>Итого:</td>
         <td></td>
-        <td>@Html.DisplayFor(model => model.ResultAllSumToOrder)</td>
+        <td>@Model.Sum(e => e.PRICE_ONE * e.QANTITY)</td>
         <td></td>
     </tr>
 </table>
-
-
-@*<fieldset>
-    <legend>AGRO_CONTRACT</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.DATE_START)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DATE_START)
-    </div>
-</fieldset>*@
-@*<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
